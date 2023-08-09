@@ -1,0 +1,2 @@
+# js-chaintalk-boot
+bootstrapped

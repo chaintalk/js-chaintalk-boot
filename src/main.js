@@ -3,10 +3,8 @@
 import minimist from 'minimist';
 import { CommonUtil } from './utils/CommonUtil.js';
 import { RelayNode } from './services/RelayNode.js';
-import { PeerIdStorageService, SwarmKeyStorageService } from 'chaintalk-utils';
+import { PeerIdStorageService, SwarmKeyStorageService, SwarmKeyService, PeerIdService } from 'chaintalk-lib';
 import { LogUtil } from "chaintalk-utils";
-import { PeerIdService } from "chaintalk-utils";
-import { SwarmKeyService } from "chaintalk-utils/src/services/SwarmKeyService.js";
 
 const argv = minimist( process.argv.slice( 2 ) );
 
@@ -27,7 +25,7 @@ async function main()
 	const peerIdObject = await preparePeerId( argv );
 	if ( null === peerIdObject )
 	{
-		LogUtil.say( `failed to create/load peerId. Create a new peerId using \`chaintalk-utils\`` );
+		LogUtil.say( `failed to create/load peerId. Create a new peerId using \`chaintalk-lib\`` );
 		return false;
 	}
 
@@ -35,7 +33,7 @@ async function main()
 	const swarmKey = await prepareSwarmKey( argv );
 	if ( null === swarmKey )
 	{
-		LogUtil.say( `invalid swarm key. Create a new swarm key using \`chaintalk-utils\`` );
+		LogUtil.say( `invalid swarm key. Create a new swarm key using \`chaintalk-lib\`` );
 		return false;
 	}
 

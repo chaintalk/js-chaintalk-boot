@@ -5,7 +5,7 @@ import { yamux } from '@chainsafe/libp2p-yamux'
 import { mplex } from '@libp2p/mplex'
 import { tcp } from '@libp2p/tcp';
 import { webSockets } from '@libp2p/websockets';
-import { bootstrap } from '@libp2p/bootstrap'
+//import { bootstrap } from '@libp2p/bootstrap'
 import { floodsub } from '@libp2p/floodsub'
 import { pubsubPeerDiscovery } from '@libp2p/pubsub-peer-discovery'
 import { circuitRelayTransport, circuitRelayServer } from 'libp2p/circuit-relay'
@@ -15,6 +15,7 @@ import { identifyService } from 'libp2p/identify'
 export class BootstrapNode
 {
 	/**
+	 * @typedef {import('@libp2p/interface').Libp2p} Libp2p
 	 * @typedef {import('peer-id')} PeerId
 	 */
 

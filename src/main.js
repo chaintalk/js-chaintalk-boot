@@ -44,10 +44,10 @@ async function main()
 	LogUtil.say( `listenAddresses: ${ listenAddresses.map( ( a ) => a ) }` )
 	announceAddresses.length && LogUtil.say( `announceAddresses: ${ announceAddresses.map( ( a ) => a ) }` )
 
-	//	Discovery
-	const pubsubDiscoveryEnabled = ! (
-		argv.disablePubsubDiscovery || process.env.DISABLE_PUBSUB_DISCOVERY
-	)
+	// //	Discovery
+	// const pubsubDiscoveryEnabled = ! (
+	// 	argv.disablePubsubDiscovery || process.env.DISABLE_PUBSUB_DISCOVERY
+	// )
 
 	//
 	//	Create Node

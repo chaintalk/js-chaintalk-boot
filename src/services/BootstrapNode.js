@@ -12,7 +12,7 @@ import { circuitRelayTransport, circuitRelayServer } from 'libp2p/circuit-relay'
 import { identifyService } from 'libp2p/identify'
 
 
-export class RelayNode
+export class BootstrapNode
 {
 	/**
 	 * @typedef {import('peer-id')} PeerId

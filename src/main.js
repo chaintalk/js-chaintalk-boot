@@ -2,7 +2,7 @@
 //           [--metricsPort <port>] [--disableMetrics] [--disablePubsubDiscovery]
 import minimist from 'minimist';
 import { CommonUtil } from './utils/CommonUtil.js';
-import { RelayNode } from './services/RelayNode.js';
+import { BootstrapNode } from './services/BootstrapNode.js';
 import { PeerIdStorageService, SwarmKeyStorageService, SwarmKeyService, PeerIdService } from 'chaintalk-lib';
 import { LogUtil } from "chaintalk-utils";
 
@@ -52,7 +52,7 @@ async function main()
 	//
 	//	Create Node
 	//
-	const relay = await RelayNode.create( {
+	const relay = await BootstrapNode.create( {
 		peerId : peerIdObject,
 		swarmKey : swarmKey,
 		listenAddresses : listenAddresses,

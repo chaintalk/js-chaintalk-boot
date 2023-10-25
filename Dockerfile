@@ -1,29 +1,33 @@
-FROM node:lts-alpine
+FROM node:18.17.1
 
-# Install deps
-RUN apk add --update git build-base python3
+#   Define build-time parameter
+#   docker build --build-arg PORT=8765 PEERS=http://localhost:9999,http://localhost:9998, -t my-node-app .
+ARG PORT=8011
+ARG FILE_PEER_ID=/etc/chaintalk/.peerId
+ARG FILE_SWARM_KEY=/etc/chaintalk/.swarmKey
+ARG ANNOUNCE_MULTIADDRS
 
-# Get dumb-init to allow quit running interactively
-RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && chmod +x /usr/local/bin/dumb-init
+ENV PORT=$PORT
+ENV FILE_PEER_ID=$FILE_PEER_ID
+ENV FILE_SWARM_KEY=$FILE_SWARM_KEY
+ENV ANNOUNCE_MULTIADDRS=$ANNOUNCE_MULTIADDRS
 
-# Setup directories for the `node` user
-RUN mkdir -p /home/node/app/js-chaintalk-boot/node_modules && chown -R node:node /home/node/app/js-chaintalk-boot
 
-WORKDIR /home/node/app/js-chaintalk-boot
+#   create a working directory inside the container
+WORKDIR /usr/src/app
 
-# Install node modules
+#   copy the local package.json to the container
 COPY package.json ./
-# Switch to the node user for installation
-USER node
-RUN npm install --production
 
-# Copy over source files under the node user
-COPY --chown=node:node ./src ./src
-COPY --chown=node:node ./README.md ./
+#   install project dependencies
+RUN npm install
 
-ENV DEBUG libp2p*
+#   copies all files in the current directory into the container (except those specified in .dockerignore)
+COPY . .
 
-# Available overrides (defaults shown):
-# Server logging can be enabled via the DEBUG environment variable
-# node --require ts-node/register src/bin.js
-CMD [ "/usr/local/bin/dumb-init", "node", "src/bin.js" ]
+#   expose the ports used by the application
+EXPOSE $PORT
+
+#   run application inside container
+#   docker run my-node-app arg1 arg2, arg1 and arg2 will pass to src/Relay.js
+CMD [ "node", "src/main.js" ]

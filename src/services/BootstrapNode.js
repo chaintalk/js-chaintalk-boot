@@ -6,10 +6,12 @@ import { mplex } from '@libp2p/mplex'
 import { tcp } from '@libp2p/tcp';
 import { webSockets } from '@libp2p/websockets';
 //import { bootstrap } from '@libp2p/bootstrap'
+import { gossipsub } from '@chainsafe/libp2p-gossipsub'
 import { floodsub } from '@libp2p/floodsub'
 import { pubsubPeerDiscovery } from '@libp2p/pubsub-peer-discovery'
 import { circuitRelayTransport, circuitRelayServer } from 'libp2p/circuit-relay'
 import { identifyService } from 'libp2p/identify'
+
 
 
 export class BootstrapNode
@@ -129,27 +131,28 @@ export class BootstrapNode
 			services : {
 				identify : identifyService(),
 				relay : circuitRelayServer(),
-				pubsub: floodsub({
-					enabled: true,
+				pubsub: gossipsub({
+					//	https://github.com/ChainSafe/js-libp2p-gossipsub
+					emitSelf : true,
+					gossipIncoming : true,
 
-					//	handle this many incoming pubsub messages concurrently
-					messageProcessingConcurrency: 32,
+					//	boolean identifying whether the node should fall back to the floodsub protocol,
+					//	if another connecting peer does not support gossipsub (defaults to true).
+					fallbackToFloodsub : true,
 
-					//	How many parallel incoming streams to allow on the pubsub protocol per-connection
-					maxInboundStreams: 32,
+					//	boolean identifying if self-published messages should be sent to all peers, (defaults to true).
+					floodPublish : true,
 
-					//	How many parallel outgoing streams to allow on the pubsub protocol per-connection
-					maxOutboundStreams: 32,
+					//	boolean identifying whether PX is enabled;
+					//	this should be enabled in bootstrappers and other
+					//	well-connected/trusted nodes (defaults to false).
+					doPX : true,
 
-					//		const {
-					// 			multicodecs = [],
-					// 			globalSignaturePolicy = 'StrictSign',
-					// 			canRelayMessage = false,
-					// 			emitSelf = false,
-					// 			messageProcessingConcurrency = 10,
-					// 			maxInboundStreams = 1,
-					// 			maxOutboundStreams = 1
-					// 		} = props
+					//	boolean identifying if we want to sign outgoing messages or not (default: true)
+					signMessages : true,
+
+					//	boolean identifying if message signing is required for incoming messages or not (default: true)
+					strictSigning : true,
 				}),
 
 			},

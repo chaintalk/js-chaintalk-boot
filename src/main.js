@@ -5,6 +5,7 @@ import { CommonUtil } from './utils/CommonUtil.js';
 import { BootstrapNode } from './services/BootstrapNode.js';
 import { PeerIdStorageService, SwarmKeyStorageService, SwarmKeyService, PeerIdService } from 'chaintalk-lib';
 import { LogUtil } from "chaintalk-utils";
+import { ParamUtils } from "./utils/ParamUtils.js";
 
 const argv = minimist( process.argv.slice( 2 ) );
 
@@ -21,8 +22,16 @@ const argv = minimist( process.argv.slice( 2 ) );
  */
 async function main()
 {
+	//
+	//	get parameters
+	//
+	const argPort = ParamUtils.getPort( 8011 );
+	const argAnnounceMultiaddrs = ParamUtils.getParamStringValue( 'ANNOUNCE_MULTIADDRS', undefined );
+	const argFilePeerId = ParamUtils.getParamStringValue( 'FILE_PEER_ID', undefined );
+	const argFileSwarmKey = ParamUtils.getParamStringValue( 'FILE_SWARM_KEY', undefined );
+
 	//	...
-	const peerIdObject = await preparePeerId( argv );
+	const peerIdObject = await preparePeerId( argFilePeerId );
 	if ( null === peerIdObject )
 	{
 		LogUtil.say( `failed to create/load peerId. Create a new peerId using \`chaintalk-lib\`` );
@@ -30,7 +39,7 @@ async function main()
 	}
 
 	//	...
-	const swarmKey = await prepareSwarmKey( argv );
+	const swarmKey = await prepareSwarmKey( argFileSwarmKey );
 	if ( null === swarmKey )
 	{
 		LogUtil.say( `invalid swarm key. Create a new swarm key using \`chaintalk-lib\`` );
@@ -38,8 +47,8 @@ async function main()
 	}
 
 	//	multiaddrs
-	const listenAddresses	= CommonUtil.getListenAddresses( argv );
-	const announceAddresses	= CommonUtil.getAnnounceAddresses( argv )
+	const listenAddresses	= CommonUtil.getListenAddresses( argPort );
+	const announceAddresses	= CommonUtil.getAnnounceAddresses( argAnnounceMultiaddrs )
 
 	LogUtil.say( `listenAddresses: ${ listenAddresses.map( ( a ) => a ) }` )
 	announceAddresses.length && LogUtil.say( `announceAddresses: ${ announceAddresses.map( ( a ) => a ) }` )
@@ -80,13 +89,13 @@ async function main()
 }
 
 /**
- *	@param	argv
+ *	@param	filePeerId
  *	@returns {Promise<PeerId|null>}
  */
-async function preparePeerId( argv )
+async function preparePeerId( filePeerId )
 {
 	const peerIdStorageService = new PeerIdStorageService();
-	const filename = peerIdStorageService.getSafeFilename( argv.peerId || process.env.PEER_ID || undefined );
+	const filename = peerIdStorageService.getSafeFilename( filePeerId );
 	let peerIdObject = null;
 	try
 	{
@@ -112,10 +121,10 @@ async function preparePeerId( argv )
 /**
  *	@returns {Promise<Uint8Array|null>}
  */
-async function prepareSwarmKey( argv )
+async function prepareSwarmKey( fileSwarmKey )
 {
 	const swarmKeyStorageService = new SwarmKeyStorageService();
-	const filename = swarmKeyStorageService.getSafeFilename( argv.swarmKey || process.env.SWARM_KEY || undefined );
+	const filename = swarmKeyStorageService.getSafeFilename( fileSwarmKey );
 	let swarmKey	= null;
 	let swarmKeyObject	= null;
 

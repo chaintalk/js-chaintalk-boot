@@ -1,3 +1,6 @@
+import { ParamUtils } from "./ParamUtils.js";
+import { TypeUtil } from "chaintalk-utils";
+
 export class CommonUtil
 {
 	static getExtraParams( alias1, alias2 )
@@ -16,19 +19,18 @@ export class CommonUtil
 		return params
 	}
 
-	static getAnnounceAddresses( argv )
+	static getAnnounceAddresses( announceMultiaddrs )
 	{
 		let announceAddresses = [];
-		const argvAddr = argv.announceMultiaddrs || argv.am
 
-		if ( argvAddr )
+		if ( TypeUtil.isNotEmptyString( announceMultiaddrs ) )
 		{
-			announceAddresses = [ argvAddr ]
+			announceAddresses = [ announceMultiaddrs ]
 
 			const extraParams = this.getExtraParams( '--announceMultiaddrs', '--am' )
 			extraParams.forEach( ( p ) => announceAddresses.push( p ) )
 		}
-		else if ( process.env.ANNOUNCE_MULTIADDRS )
+		else if ( TypeUtil.isNotEmptyString( process.env.ANNOUNCE_MULTIADDRS ) )
 		{
 			announceAddresses = process.env.ANNOUNCE_MULTIADDRS.split( ',' )
 		}
@@ -36,9 +38,8 @@ export class CommonUtil
 		return announceAddresses
 	}
 
-	static getListenAddresses( argv )
+	static getListenAddresses( port )
 	{
-		const port = argv.p || 8011;
 		//let listenAddresses = [ '/ip4/127.0.0.1/tcp/10010/ws', '/ip4/127.0.0.1/tcp/10000' ]
 		// let listenAddresses = [ '/ip4/0.0.0.0/tcp/10000/ws' ]
 		// const argvAddr = argv.listenMultiaddrs || argv.lm

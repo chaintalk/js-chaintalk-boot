@@ -1,4 +1,3 @@
-import { ParamUtils } from "./ParamUtils.js";
 import { TypeUtil } from "chaintalk-utils";
 
 export class CommonUtil

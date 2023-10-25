@@ -1,13 +1,13 @@
 // Usage: $0 [--peerId <jsonFilePath>] [--listenMultiaddrs <ma> ... <ma>] [--announceMultiaddrs <ma> ... <ma>]
 //           [--metricsPort <port>] [--disableMetrics] [--disablePubsubDiscovery]
-import minimist from 'minimist';
+//import minimist from 'minimist';
 import { CommonUtil } from './utils/CommonUtil.js';
 import { BootstrapNode } from './services/BootstrapNode.js';
 import { PeerIdStorageService, SwarmKeyStorageService, SwarmKeyService, PeerIdService } from 'chaintalk-lib';
 import { LogUtil } from "chaintalk-utils";
 import { ParamUtils } from "./utils/ParamUtils.js";
 
-const argv = minimist( process.argv.slice( 2 ) );
+//const argv = minimist( process.argv.slice( 2 ) );
 
 
 /**

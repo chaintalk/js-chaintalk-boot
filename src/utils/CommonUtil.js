@@ -54,6 +54,6 @@ export class CommonUtil
 		// {
 		// 	listenAddresses = process.env.LISTEN_MULTIADDRS.split( ',' )
 		// }
-		return [ `/ip4/0.0.0.0/tcp/${ port }/ws` ];
+		return [ `/ip4/0.0.0.0/tcp/${ port }` ];
 	}
 }

@@ -7,8 +7,10 @@ import { PeerIdStorageService, SwarmKeyStorageService, SwarmKeyService, PeerIdSe
 import { LogUtil } from "chaintalk-utils";
 import { ParamUtils } from "./utils/ParamUtils.js";
 
+import 'dotenv/config.js'
 //const argv = minimist( process.argv.slice( 2 ) );
 
+console.log( `main process.env`, process.env );
 
 /**
  * 	command line args:
@@ -25,10 +27,14 @@ async function main()
 	//
 	//	get parameters
 	//
-	const argPort = ParamUtils.getPort( 8011 );
+	const argListenPort = ParamUtils.getPort( 8011 );
+	const argListenAddress = ParamUtils.getParamStringValue( 'LISTEN_ADDRESS', undefined );
 	const argAnnounceMultiaddrs = ParamUtils.getParamStringValue( 'ANNOUNCE_MULTIADDRS', undefined );
 	const argFilePeerId = ParamUtils.getParamStringValue( 'FILE_PEER_ID', undefined );
 	const argFileSwarmKey = ParamUtils.getParamStringValue( 'FILE_SWARM_KEY', undefined );
+
+	console.log( `argListenPort : `, argListenPort );
+	console.log( `argListenAddress : `, argListenAddress );
 
 	//	...
 	const peerIdObject = await preparePeerId( argFilePeerId );
@@ -47,7 +53,7 @@ async function main()
 	}
 
 	//	multiaddrs
-	const listenAddresses	= CommonUtil.getListenAddresses( argPort );
+	const listenAddresses	= CommonUtil.getListenAddresses( argListenAddress, argListenPort );
 	const announceAddresses	= CommonUtil.getAnnounceAddresses( argAnnounceMultiaddrs )
 
 	LogUtil.say( `listenAddresses: ${ listenAddresses.map( ( a ) => a ) }` )

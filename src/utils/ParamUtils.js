@@ -2,35 +2,23 @@ import minimist from "minimist";
 import _ from "lodash";
 import { TypeUtil } from "chaintalk-utils";
 
+import 'dotenv/config.js'
 const argv = minimist( process.argv.slice( 2 ) );
+
+console.log( `ParamUtils process.env`, process.env );
 
 
 export class ParamUtils
 {
 	static getPort( defaultPort )
 	{
-		let port;
-		if ( undefined !== argv &&
-			undefined !== argv.port )
+		let port = this.getParamIntValue( 'LISTEN_PORT', defaultPort );
+		if ( this.isValidPortNumber( port ) )
 		{
-			port = parseInt( argv.port );
-			if ( this.isValidPortNumber( port ) )
-			{
-				return port;
-			}
-		}
-		if ( undefined !== process &&
-		     undefined !== process.env &&
-		     undefined !== process.env.PORT )
-		{
-			port = parseInt( process.env.PORT );
-			if ( this.isValidPortNumber( port ) )
-			{
-				return port;
-			}
+			return port;
 		}
 
-		return this.isValidPortNumber( defaultPort ) ? defaultPort : 0;
+		return defaultPort;
 	}
 
 	static isValidPortNumber( port )

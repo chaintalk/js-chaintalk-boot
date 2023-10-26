@@ -37,7 +37,7 @@ export class CommonUtil
 		return announceAddresses
 	}
 
-	static getListenAddresses( port )
+	static getListenAddresses( argListenAddress, port )
 	{
 		//let listenAddresses = [ '/ip4/127.0.0.1/tcp/10010/ws', '/ip4/127.0.0.1/tcp/10000' ]
 		// let listenAddresses = [ '/ip4/0.0.0.0/tcp/10000/ws' ]
@@ -54,6 +54,6 @@ export class CommonUtil
 		// {
 		// 	listenAddresses = process.env.LISTEN_MULTIADDRS.split( ',' )
 		// }
-		return [ `/ip4/0.0.0.0/tcp/${ port }` ];
+		return [ `/ip4/${ argListenAddress }/tcp/${ port }` ];
 	}
 }

@@ -16,8 +16,8 @@ services:
             #- ./deploy/etc/hosts:/etc/hosts:ro
             - ./deploy/etc/chaintalk/.peerId:/etc/chaintalk/.peerId:ro
             - ./deploy/etc/chaintalk/.swarmKey:/etc/chaintalk/.swarmKey:ro
-        environment:
-            - PORT=8011
-            - FILE_PEER_ID=/etc/chaintalk/.peerId
-            - FILE_SWARM_KEY=/etc/chaintalk/.swarmKey
-            - ANNOUNCE_MULTIADDRS=
+#        environment:
+#            - LISTEN_PORT=8011
+#            - FILE_PEER_ID=/etc/chaintalk/.peerId
+#            - FILE_SWARM_KEY=/etc/chaintalk/.swarmKey
+#            - ANNOUNCE_MULTIADDRS=

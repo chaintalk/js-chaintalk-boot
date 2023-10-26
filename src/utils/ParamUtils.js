@@ -5,8 +5,6 @@ import { TypeUtil } from "chaintalk-utils";
 import 'dotenv/config.js'
 const argv = minimist( process.argv.slice( 2 ) );
 
-console.log( `ParamUtils process.env`, process.env );
-
 
 export class ParamUtils
 {
